@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SchoolProject.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.CourseName)</th>
+            <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+            <th>@Html.DisplayNameFor(model => model.IsDeleted)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.UpdatedDate)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="course-@item.CourseId">
+                <td>@Html.DisplayFor(modelItem => item.CourseName)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.UpdatedDate)</td>
+                <td>
+                    <button class="btn btn-primary toggle-btn" data-course-id="@item.CourseId" data-is-active="@item.IsActive">
+                        Toggle Active Status
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.toggle-btn').click(function () {
+            var button = $(this);
+            var courseId = button.data('course-id');
+            var isActive = button.data('is-active');
+            var newIsActive = !isActive;
+
+            $.ajax({
+                url: '/api/Courses/update/' + courseId,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ CourseId: courseId, IsActive: newIsActive }),
+                success: function () {
+                    // Update the table row
+                    $('#course-' + courseId + ' td:nth-child(2)').text(newIsActive);
+                    // Update the button's data attribute
+                    button.data('is-active', newIsActive);
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+    });
+</script>

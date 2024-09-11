@@ -1,0 +1,169 @@
+﻿@model SchoolProject.Models.Mail
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            padding-top: 0px; /* Space for fixed navbar */
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+            .contact-header h1 {
+                font-size: 3rem;
+                color: #343a40;
+                margin-bottom: 10px;
+            }
+
+            .contact-header p {
+                font-size: 1.25rem;
+                color: #6c757d;
+            }
+
+        .contact-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .contact-details {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+            .contact-details h4 {
+                margin-bottom: 20px;
+                color: #343a40;
+            }
+
+            .contact-details p {
+                margin-bottom: 15px;
+                color: #6c757d;
+            }
+
+        .contact-form .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #ced4da;
+        }
+
+            .contact-form .form-control:focus {
+                border-color: #80bdff;
+                box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+            }
+
+        .contact-form .btn-primary {
+            background: #007bff;
+            border-color: #007bff;
+            padding: 12px 20px;
+            border-radius: 5px;
+        }
+
+            .contact-form .btn-primary:hover {
+                background: #0056b3;
+                border-color: #004085;
+            }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #007bff;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container contact-container">
+        <div class="contact-header">
+            <h1>Get in Touch</h1>
+            <p>We'd love to hear from you. Please fill out the form below to reach out.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-form">
+                    <h3>Contact Form</h3>
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "contactForm" }))
+                    {
+                        <!-- Mesajı görüntüle -->
+                        if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-info" role="alert">
+                                @ViewBag.Message
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", placeholder = "Subject" })
+                            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control", rows = 5, placeholder = "Your message here..." })
+                            @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="contact-details">
+                    <h4>Contact Information</h4>
+                    <p><i class="contact-icon fas fa-map-marker-alt"></i><strong>Address:</strong> 123 School Street, Education City, EC 12345</p>
+                    <p><i class="contact-icon fas fa-phone-alt"></i><strong>Phone:</strong> (123) 456-7890</p>
+                    <p><i class="contact-icon fas fa-envelope"></i><strong>Email:</strong> contact@schoolweb.com</p>
+                    <p><i class="contact-icon fas fa-clock"></i><strong>Business Hours:</strong> Mon - Fri, 9:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#contactForm").on("submit", function (event) {
+                event.preventDefault(); // Formun varsayılan gönderimini önleyin
+
+                var form = $(this);
+                var formData = form.serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Başarıyla gönderildikten sonra alanları temizle
+                            form.find("input[type=text], textarea").val("");
+                        }
+                        // Mesajı ekrana yazdır
+                        alert(response.message);
+                    },
+                    error: function () {
+                        alert("There was an error submitting the form. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

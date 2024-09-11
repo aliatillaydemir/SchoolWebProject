@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('/images/board.PNG'); /* Resmin yolu */
+            background-size: cover; /* Tam ekran kapsama */
+            background-position: center center; /* Merkezleme */
+            background-repeat: no-repeat; /* Tekrar etmeme */
+            height: 100vh; /* Tam ekran yüksekliği */
+            margin: 0; /* Margin sıfır */
+            color: #343a40;
+            padding-top: 0px; /* Sabit navbar için alan */
+        }
+
+        .welcome-container {
+            text-align: center;
+            padding: 50px 15px;
+            color: #fff; /* Metin rengini beyaz yap */
+        }
+
+            .welcome-container h1 {
+                font-size: 3rem;
+                margin-bottom: 20px;
+            }
+
+            .welcome-container p {
+                font-size: 1.25rem;
+                margin-bottom: 30px;
+            }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff; /* Daha belirgin bir mavi */
+            border: none; /* Kenarlık kaldırma */
+            border-radius: 4px;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3; /* Hover rengi */
+            }
+
+        .feature-box {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Hafif saydam beyaz arka plan */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Daha belirgin gölge */
+            margin-bottom: 20px;
+            transition: background 0.3s, box-shadow 0.3s; /* Geçiş efekti */
+        }
+
+            .feature-box:hover {
+                background: rgba(255, 255, 255, 0.9); /* Hover arka plan rengi */
+                box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Hover gölge rengi */
+            }
+
+            .feature-box h3 {
+                margin-bottom: 15px;
+                font-size: 1.5rem;
+                color: #343a40; /* Başlık rengi */
+            }
+
+            .feature-box p {
+                font-size: 1rem;
+                color: #6c757d; /* Açık gri renk */
+            }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-container">
+        <h1>Welcome to School Web!</h1>
+        <p>Your journey starts here. Explore our Website and features.</p>
+        <a href="/Socket/Index" class="btn btn-primary">Explore Socket!</a>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <h3><a href="/Courses/Index">Courses</a></h3>
+                        <p>
+                            Explore a variety of subjects to expand your knowledge and skills.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <h3><a href="/Teachers/Index">Teachers</a></h3>
+                        <p>
+                            Meet our skilled educators dedicated to your learning journey.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        @*<h3><a href="/Home/Index">Students</a></h3>*@
+                        <h3><a href="/Students/Index">Students</a></h3>
+                        <p>
+                            Join a diverse community of learners and achieve your academic goals.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

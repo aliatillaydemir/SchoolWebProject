@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "About Us";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+        body {
+            padding-top: 0px; /* Space for fixed navbar */
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+            .about-header h1 {
+                font-size: 3rem;
+                color: #343a40;
+                margin-bottom: 10px;
+            }
+
+            .about-header p {
+                font-size: 1.25rem;
+                color: #6c757d;
+            }
+
+        .about-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+            .about-section h3 {
+                margin-bottom: 20px;
+                color: #343a40;
+            }
+
+            .about-section p {
+                margin-bottom: 15px;
+                color: #6c757d;
+            }
+
+        .team-member {
+            margin-bottom: 20px;
+        }
+
+            .team-member img {
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+            }
+
+            .team-member h4 {
+                margin-top: 10px;
+                color: #343a40;
+            }
+
+            .team-member p {
+                color: #6c757d;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container about-container">
+        <div class="about-header">
+            <h1>About Us</h1>
+            <p>Discover who we are and what drives us. Learn about our mission, vision, and team.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="about-section">
+                    <h3>Our Mission</h3>
+                    <p>
+                        At SchoolWeb, our mission is to provide a comprehensive and accessible education platform that empowers students, teachers, and educational institutions. We strive to foster a supportive learning environment that enhances academic excellence and personal growth.
+                    </p>
+                </div>
+                <div class="about-section">
+                    <h3>Our Vision</h3>
+                    <p>
+                        Our vision is to revolutionize the education sector through innovative technology and exceptional educational resources. We aim to create a global learning community where knowledge is shared freely and everyone has the opportunity to achieve their full potential.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="about-section">
+                    <h3>Meet Our Team</h3>
+                    <div class="row">
+                        <div class="col-md-6 team-member">
+                            <img src="https://via.placeholder.com/120" alt="Team Member 1">
+                            <h4>Jane Doe</h4>
+                            <p>Chief Executive Officer</p>
+                        </div>
+                        <div class="col-md-6 team-member">
+                            <img src="https://via.placeholder.com/120" alt="Team Member 2">
+                            <h4>John Smith</h4>
+                            <p>Chief Technology Officer</p>
+                        </div>
+                        <div class="col-md-6 team-member">
+                            <img src="https://via.placeholder.com/120" alt="Team Member 3">
+                            <h4>Emily Johnson</h4>
+                            <p>Head of Curriculum</p>
+                        </div>
+                        <div class="col-md-6 team-member">
+                            <img src="https://via.placeholder.com/120" alt="Team Member 4">
+                            <h4>Michael Brown</h4>
+                            <p>Director of Operations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

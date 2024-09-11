@@ -1,0 +1,250 @@
+﻿@model SchoolProject.Models.Student
+
+@{
+    ViewBag.Title = "Create Student";
+    ViewBag.HideNavbar = true;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SchoolWeb</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            color: #343a40; /* Default text color */
+            background: url('/images/pen.jpg'); /* Background image */
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove default margin */
+        }
+
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .header-buttons .btn {
+                border-radius: 50px; /* Rounded corners */
+                padding: 10px 20px; /* Padding */
+                font-size: 16px; /* Font size */
+                display: flex;
+                align-items: center;
+                gap: 8px; /* Space between icon and text */
+            }
+
+        .btn-back {
+            background-color: #007bff; /* Blue color */
+            color: white; /* White text color */
+            border: none; /* No border */
+        }
+
+            .btn-back:hover {
+                opacity: 0.9; /* Hover effect */
+            }
+
+        .container {
+            padding-top: 20px; /* Top padding for container */
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.6); /* White background with 60% opacity */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+            padding: 20px;
+            max-width: 600px; /* Decrease max width of card */
+            margin: auto; /* Center the card */
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #81C784, #4CAF50); /* Green gradient background */
+            color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 15px; /* Rounded corners */
+            border-top-right-radius: 15px; /* Rounded corners */
+            border-radius: 15px !important;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-horizontal .form-group {
+            margin-bottom: 1rem; /* Space between form groups */
+        }
+
+        .form-horizontal .control-label {
+            text-align: left;
+            font-weight: bold;
+            color: #343a40; /* Dark text color */
+        }
+
+        .form-horizontal .form-control {
+            border-radius: 5px; /* Rounded corners */
+            border: 1px solid #ced4da; /* Light border */
+        }
+
+            .form-horizontal .form-control[autocomplete="off"] {
+                /* Disable autocomplete */
+                autocomplete: off;
+            }
+
+        .form-horizontal .radio label {
+            font-weight: normal;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            border-radius: 5px; /* Rounded corners */
+        }
+
+            .btn-primary:hover {
+                background-color: #388E3C;
+                border-color: #2C6B2F;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            border-radius: 5px; /* Rounded corners */
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+            }
+
+        .text-danger {
+            font-size: 0.875rem; /* Slightly smaller font size for error messages */
+        }
+
+        .action-link {
+            display: inline-block;
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+            .action-link:hover {
+                text-decoration: underline;
+            }
+
+        .btn-container {
+            display: flex;
+            justify-content: center; /* Center align buttons */
+            gap: 10px; /* Space between buttons */
+        }
+
+        .h3-deleted-courses {
+            font-size: 1.5rem; /* Larger font size */
+            font-weight: bold; /* Bold text */
+            color: #4CAF50; /* Green color */
+            margin-top: 30px; /* Space between form and title */
+            margin-bottom: 20px; /* Space between title and table */
+        }
+
+        .table {
+            margin-top: 10px; /* Top margin for table */
+            border-radius: 15px; /* Rounded corners */
+            overflow: hidden; /* Ensure that the borders are rounded */
+        }
+
+            .table thead th {
+                background-color: #4CAF50; /* Green background for headers */
+                color: #fff; /* White text color */
+                font-weight: bold; /* Bold text */
+                border: none; /* Remove border */
+                padding: 12px; /* Padding for headers */
+            }
+
+            .table tbody tr:nth-child(odd) {
+                background-color: #e8f5e9; /* Light green background for odd rows */
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #ffffff; /* White background for even rows */
+            }
+
+            .table td {
+                vertical-align: middle; /* Center align text vertically */
+                padding: 12px; /* Padding for cells */
+                font-size: 0.875rem; /* Adjust font size for readability */
+                color: #495057; /* Slightly lighter text color */
+            }
+
+            .table thead th, .table tbody td {
+                border: 1px solid #c8e6c9; /* Light green border color */
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="header-buttons mb-4">
+            <a href="@Url.Action("Index", "Students")" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-header">
+                <h4 class="mb-0">Create Student</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Student</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(model => model.IsActive, true) Active
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(model => model.IsActive, false) Inactive
+                                    </label>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12 btn-container">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

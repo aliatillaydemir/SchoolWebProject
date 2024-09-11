@@ -1,0 +1,407 @@
+﻿@model SchoolProject.Models.Student
+
+@{
+    ViewBag.Title = "Edit Student";
+    ViewBag.HideNavbar = true; <!-- Navbar'ı gizle -->
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<script>
+    // Belirli bir süre sonra mesajları gizlemek için bir fonksiyon
+    function hideMessageAfterDelay(selector, delay) {
+        var element = document.querySelector(selector);
+        if (element) {
+            setTimeout(function () {
+                element.style.opacity = 0;
+                setTimeout(function () {
+                    element.style.display = 'none';
+                }, 600); // 0.6 saniye animasyon süresi
+            }, delay);
+        }
+    }
+
+    // Sayfa yüklendiğinde mesajları göster ve sonra gizle
+    document.addEventListener('DOMContentLoaded', function () {
+        hideMessageAfterDelay('#successMessage', 3000); // 3 saniye sonra mesajı gizle
+        hideMessageAfterDelay('#errorMessage', 3000); // 3 saniye sonra mesajı gizle
+    });
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SchoolWeb</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            color: #343a40; /* Default text color */
+            margin: 0; /* Remove default margin */
+            background: url('/images/pen.jpg'); /* Arka plan resmi */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding-top: 5px; /* Üstten boşluk */
+        }
+
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .header-buttons .btn {
+                border-radius: 50px; /* Yuvarlak köşeler */
+                padding: 10px 20px; /* İç boşluk */
+                font-size: 16px; /* Yazı boyutu */
+                display: flex;
+                align-items: center;
+                gap: 8px; /* İkon ve metin arasındaki boşluk */
+            }
+
+        .btn-back {
+            background-color: #007bff; /* Daha parlak mavi */
+            color: white; /* Beyaz metin rengi */
+            border: none; /* Kenar çizgisi yok */
+        }
+
+            .btn-back:hover {
+                opacity: 0.9; /* Hover efekti */
+            }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.6); /* Beyaz arka plan, %60 opaklık */
+            border-radius: 15px; /* Yuvarlak köşeler */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+            padding: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #007bff, #0056b3); /* Geçişli mavi arka plan */
+            color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 15px !important;
+            padding: 15px;
+            font-size: 1.25rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+
+        .well {
+            background-color: rgba(255, 255, 255, 0.8); /* Daha şeffaf arka plan */
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .remove-button {
+            float: right;
+            margin-top: -5px;
+            margin-left: 10px;
+        }
+
+        .list-group-item {
+            position: relative;
+            padding-right: 100px; /* Right padding for the remove button */
+        }
+
+            .list-group-item .remove-button {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 10;
+                border-radius: 8px; /* Az yuvarlak köşeler */
+                padding: 5px 10px; /* İç boşluk */
+                background-color: #dc3545; /* Kırmızı arka plan */
+                color: #fff; /* Beyaz metin rengi */
+                border: none; /* Kenar çizgisi yok */
+                font-size: 14px; /* Metin boyutu */
+                cursor: pointer; /* İşaretçi stilini değiştirme */
+                transition: background-color 0.2s, transform 0.2s; /* Geçiş efektleri */
+                text-align: center; /* Metni ortala */
+            }
+
+                .list-group-item .remove-button:hover {
+                    background-color: #c82333; /* Koyu kırmızı arka plan */
+                    transform: translateY(-50%) scale(1.1); /* Hoverda butonu büyütme */
+                }
+
+                .list-group-item .remove-button i {
+                    margin: 0; /* İkonun etrafındaki boşluğu kaldır */
+                }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="header-buttons">
+            <a href="@Url.Action("Index", "Students")" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        @using (Html.BeginForm("Edit", "Students", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="card mx-auto" style="max-width: 800px;">
+                <div class="card-header">
+                    <h4 class="mb-0">Student Details</h4>
+                </div>
+                <div class="card-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <!-- Hidden Field for StudentId -->
+                    @Html.HiddenFor(model => model.StudentId)
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.StudentName, new { @class = "col-md-3 col-form-label" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.IsActive, new { @class = "col-md-3 col-form-label" })
+                        <div class="col-md-9">
+                            <div class="form-check">
+                                @Html.RadioButtonFor(model => model.IsActive, true, new { @class = "form-check-input" })
+                                @Html.Label("IsActive", "Active", new { @class = "form-check-label" })
+                            </div>
+                            <div class="form-check">
+                                @Html.RadioButtonFor(model => model.IsActive, false, new { @class = "form-check-input" })
+                                @Html.Label("IsActive", "Inactive", new { @class = "form-check-label" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!-- Manage Courses Section -->
+                    <h3>Manage Courses</h3>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Courses</label>
+                        <div class="col-md-9">
+                            <div class="well">
+                                @if (Model.StudentCourses.Any())
+                                {
+                                    <ul class="list-group">
+                                        @foreach (var studentCourse in Model.StudentCourses)
+                                        {
+                                            if (!(bool)studentCourse.Course.IsDeleted)
+                                            {
+                                                <li class="list-group-item">
+                                                    @studentCourse.Course.CourseName
+                                                    @Html.ActionLink("Remove", "RemoveCourse", new { studentId = Model.StudentId, courseId = studentCourse.CourseId }, new { @class = "btn btn-danger btn-sm remove-button" })
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p>No courses assigned.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.Label("Add Course", new { @class = "col-md-3 col-form-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("CourseId", (SelectList)ViewBag.CourseList, "Select a Course", new { @class = "form-control", id = "CourseId" })
+                            @Html.ValidationMessage("CourseId", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.Label("Add Teacher", new { @class = "col-md-3 col-form-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("TeacherId", new SelectList(new List<SelectListItem>()), "Select a Teacher", new { @class = "form-control", id = "TeacherId" })
+                            @Html.ValidationMessage("TeacherId", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9 offset-md-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="@Url.Action("Index", "Students")" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    @*@section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            <script>
+            $(document).ready(function () {
+                $('#CourseId').change(function () {
+                    var courseId = $(this).val(); // Seçilen dersin ID'sini al
+
+                    if (courseId) {
+                        $.ajax({
+                            url: '@Url.Action("GetTeachersByCourse", "Students")', // Web uygulamasındaki controller'ı çağırır
+                            type: 'GET',
+                            data: { courseId: courseId }, // courseId parametresini gönderir
+                            dataType: 'json', // Yanıt formatını belirtir
+                            success: function (data) {
+                                var teacherDropdown = $('#TeacherId'); // Öğretmen dropdown menüsünü seç
+                                teacherDropdown.empty(); // Dropdown'u temizle
+
+                                // Eğer öğretmen yoksa "No Teacher Assigned" seçeneğini ekle
+                                if (data.length === 0) {
+                                    teacherDropdown.append('<option value="">No Teacher Assigned</option>');
+                                } else {
+                                    // Gelen öğretmenleri dropdown menüsüne ekle
+                                    $.each(data, function (index, item) {
+                                        teacherDropdown.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error: ' + error); // Hata mesajını konsola yazdır
+                                alert('Error retrieving teachers: ' + xhr.responseText); // Hata durumunda kullanıcıya bilgi ver
+                            }
+                        });
+                    } else {
+                        // Eğer courseId seçilmemişse, dropdown menüsüne varsayılan bir seçenek ekle
+                        $('#TeacherId').empty().append('<option value="">Select a Teacher</option>');
+                    }
+                });
+            });
+            </script>
+        }*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+    $(document).ready(function () {
+        // Ders dropdown'unda seçim değiştiğinde öğretmenleri güncelle
+        $('#CourseId').change(function () {
+            var courseId = $(this).val(); // Seçilen dersin ID'sini al
+
+            if (courseId) {
+                $.ajax({
+                    url: '@Url.Action("GetTeachersByCourse", "Students")', // Öğretmenleri almak için API'yi çağırır
+                    type: 'GET',
+                    data: { courseId: courseId }, // Seçilen dersin ID'sini gönderir
+                    dataType: 'json', // Yanıt formatını belirtir
+                    success: function (data) {
+                        var teacherDropdown = $('#TeacherId'); // Öğretmen dropdown menüsünü seç
+                        teacherDropdown.empty(); // Dropdown'u temizle
+
+                        // Eğer öğretmen yoksa varsayılan bir seçenek ekle
+                        if (data.length === 0) {
+                            teacherDropdown.append('<option value="">No Teacher Assigned</option>');
+                        } else {
+                            // Gelen öğretmenleri dropdown menüsüne ekle
+                            $.each(data, function (index, item) {
+                                teacherDropdown.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error: ' + error); // Hata mesajını konsola yazdır
+                        alert('Error retrieving teachers: ' + xhr.responseText); // Hata durumunda kullanıcıya bilgi ver
+                    }
+                });
+            } else {
+                // Eğer courseId seçilmemişse, dropdown menüsüne varsayılan bir seçenek ekle
+                $('#TeacherId').empty().append('<option value="">Select a Teacher</option>');
+            }
+        });
+
+        // Formun submit olayını yakala
+        $('#editStudentForm').on('submit', function (event) {
+            event.preventDefault(); // Formun normal submit işlemini engelle
+
+            // Öğrenci nesnesini oluştur
+            var student = {
+                StudentId: $('#StudentId').val(),
+                StudentName: $('#StudentName').val(),
+                IsActive: $('#IsActive').is(':checked'),
+                StudentCourses: []
+            };
+
+            // Seçilen ders ve öğretmen bilgilerini al
+            var courseId = $('#CourseId').val();
+            var teacherId = $('#TeacherId').val();
+
+            if (courseId && teacherId) {
+                student.StudentCourses.push({
+                    CourseId: courseId,
+                    TeacherId: teacherId,
+                    IsActive: true // Varsayılan olarak aktif
+                });
+            }
+
+            // Öğrenci nesnesini API'ye gönder
+            $.ajax({
+                url: '@Url.Action("Edit", "Students")', // Controller'daki Edit metoduna gönder
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(student),
+                success: function (response) {
+                    window.location.href = '@Url.Action("Index", "Students")'; // Başarılıysa yönlendir
+                },
+                error: function (xhr, status, error) {
+                    // Hata mesajını göster
+                    alert('Bir hata oluştu: ' + xhr.responseText);
+                }
+            });
+        });
+    });
+        </script>
+    }
+
+
+
+</body>
+</html>

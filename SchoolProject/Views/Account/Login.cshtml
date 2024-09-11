@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            color: #ffffff; /* Default text color */
+            margin: 0; /* Remove default margin */
+            background: url('/images/books.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.85); /* Daha az opak arka plan */
+            padding: 40px; /* Daha geniş padding */
+            border-radius: 10px; /* Daha yuvarlak köşeler */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px; /* Daha geniş form */
+            margin: 0 auto;
+            margin-top: 100px; /* Üstten boşluk */
+        }
+
+            .login-container h2 {
+                margin-bottom: 30px; /* Daha fazla alt boşluk */
+                text-align: center;
+                color: #333;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                font-weight: bold;
+                color: #333;
+            }
+
+            .form-group input {
+                border-radius: 6px; /* Daha yuvarlak kenarlar */
+                border: 1px solid #ddd;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+                .form-group input:focus {
+                    border-color: #007bff;
+                    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+
+        .text-danger {
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+
+        .forgot-password {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+            .forgot-password a {
+                color: #007bff;
+            }
+
+                .forgot-password a:hover {
+                    color: #0056b3;
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        <form action="@Url.Action("Login", "Account")" method="post" autocomplete="off">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" autocomplete="off" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" autocomplete="off" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <div class="forgot-password">
+                <a href="/Account/Register">Register</a> | <a href="#">Forgot your password?</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

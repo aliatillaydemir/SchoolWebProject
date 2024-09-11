@@ -1,0 +1,144 @@
+﻿@model SchoolProject.Models.Course
+
+@{
+    ViewBag.Title = "Edit Course";
+    ViewBag.HideNavbar = true;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SchoolWeb</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            color: #343a40; /* Default text color */
+            margin: 0; /* Remove default margin */
+            background: url('/images/school1.jpg'); /* Arka plan resmi */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .header-buttons .btn {
+                border-radius: 50px; /* Yuvarlak köşeler */
+                padding: 10px 20px; /* İç boşluk */
+                font-size: 16px; /* Yazı boyutu */
+                display: flex;
+                align-items: center;
+                gap: 8px; /* İkon ve metin arasındaki boşluk */
+            }
+
+        .btn-back {
+            background-color: #007bff; /* Daha parlak mavi */
+            color: white; /* Beyaz metin rengi */
+            border: none; /* Kenar çizgisi yok */
+        }
+
+            .btn-back:hover, .btn-add:hover {
+                opacity: 0.9; /* Hover efekti */
+            }
+
+        .container {
+            padding-top: 10px;  Üstten boşluk 
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.6); /* Beyaz arka plan, %60 opaklık */
+            border-radius: 15px; /* Yuvarlak köşeler */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+            padding: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #007bff, #0056b3); /* Geçişli mavi arka plan */
+            color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 15px !important;
+            padding: 15px;
+            font-size: 1.25rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="container">
+            <div class="header-buttons">
+                <a href="@Url.Action("Index", "Courses")" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card mx-auto" style="max-width: 600px;">
+                    <div class="card-header">
+                        <h4 class="mb-1" rounded>Course Details</h4>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group row">
+                            @Html.HiddenFor(model => model.CourseId)
+                            @Html.LabelFor(model => model.CourseName, new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- Add other relevant fields here -->
+
+                        <div class="form-group row">
+                            <div class="col-md-9 offset-md-3">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="@Url.Action("Index", "Courses")" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

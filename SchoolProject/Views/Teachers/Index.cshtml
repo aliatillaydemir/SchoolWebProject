@@ -1,0 +1,257 @@
+﻿@model IEnumerable<SchoolProject.Models.Teacher>
+
+@{
+    ViewBag.Title = "Teachers";
+    var roleId = ViewBag.RoleId != null ? (int)ViewBag.RoleId : -1;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            color: #ffffff;
+            margin: 0;
+            background: url('/images/school2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .header-buttons .btn {
+                border-radius: 50px;
+                padding: 10px 20px;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+            .btn-back:hover, .btn-add:hover {
+                opacity: 0.9;
+            }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+            .table thead th {
+                background-color: #f8f9fa;
+                color: #495057;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            .table td, .table th {
+                padding: 15px;
+            }
+
+            .table td {
+                vertical-align: middle;
+            }
+
+            .table tbody td {
+                border-top: 1px solid #dee2e6;
+            }
+
+        .btn-edit, .btn-details, .btn-delete {
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: white;
+            border: none;
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+        }
+
+            .btn-edit:hover {
+                background-color: #0056b3;
+            }
+
+        .btn-details {
+            background-color: #ffc107;
+        }
+
+            .btn-details:hover {
+                background-color: #e0a800;
+            }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+            .btn-delete:hover {
+                background-color: #c82333;
+            }
+
+        /* Modal Styles */
+        .modal-content {
+            border: 2px solid #dc3545; /* Red border for the modal */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .modal-header {
+            background-color: #dc3545; /* Red header background */
+            color: white; /* White text color */
+            border-bottom: 1px solid #dc3545; /* Red border for the header */
+        }
+
+        .modal-body {
+            background-color: #ffffff; /* White background for the body */
+            color: #000000; /* Black text color */
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa; /* Light gray footer background */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-buttons">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-back" onclick="event.preventDefault(); window.location.href='@Url.Action("Index", "Home")';">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            @if (roleId == 0)
+            {
+                <a href="@Url.Action("Create")" class="btn btn-add">
+                    <i class="fas fa-plus"></i> Add New Teacher
+                </a>
+            }
+        </div>
+
+        <h2>Teachers</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().TeacherId)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().TeacherName)</th>
+                    <th>Course Name</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().CreatedDate)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(t => !(bool)t.IsDeleted))
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.TeacherId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TeacherName)</td>
+                        <td>
+                            @if (item.Course != null)
+                            {
+                                if ((bool)item.Course.IsDeleted)
+                                {
+                                    <span>No Course Assigned</span>
+                                }
+                                else
+                                {
+                                    @item.Course.CourseName
+                                }
+                            }
+                            else
+                            {
+                                <span>No Course Assigned</span>
+                            }
+                        </td>
+                        <td>@((item.IsActive ?? false) ? "Yes" : "No")</td>
+                        <td>@(item.CreatedDate.HasValue ? item.CreatedDate.Value.ToString("dd-MM-yyyy") : "")</td>
+                        <td>
+                            @if (roleId == 0)
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.TeacherId }, new { @class = "btn btn-edit" })
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-edit disabled" aria-disabled="true">Edit</a>
+                            }
+                            @Html.ActionLink("Details", "Details", new { id = item.TeacherId }, new { @class = "btn btn-details" })
+                            @if (roleId == 0)
+                            {
+                                <button class="btn btn-delete" data-toggle="modal" data-target="#deleteModal" data-id="@item.TeacherId" data-name="@item.TeacherName">Delete</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-delete" disabled>Delete</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Teacher</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the teacher <strong id="teacherName"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="post" action="">
+                        @Html.AntiForgeryToken()
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var teacherId = button.data('id'); // Extract info from data-* attributes
+            var teacherName = button.data('name'); // Extract info from data-* attributes
+            var modal = $(this);
+            modal.find('#teacherName').text(teacherName);
+            modal.find('#deleteForm').attr('action', '/Teachers/Delete/' + teacherId);
+        });
+    </script>
+</body>
+</html>
