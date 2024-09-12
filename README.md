@@ -1,8 +1,6 @@
 # SchoolWeb Web Application
 
-## Web API
-
-[Web API](https://github.com/aliatillaydemir/SchoolWebApiProject)  
+Click here for [Web API](https://github.com/aliatillaydemir/SchoolWebApiProject)  
 Click here for project development process and summary: [Project Process & Summary](https://github.com/aliatillaydemir/SchoolWebProject/blob/master/Sunu.pdf)
 
 ## Introduction
